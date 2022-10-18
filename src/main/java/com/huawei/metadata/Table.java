@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class Table {
     private String tableName;
 
-    private Long rowNum;
+    private Long rowNum = 0L;
 
     private LinkedList<Field> fields;
 
@@ -73,11 +73,11 @@ public class Table {
         LinkedList<Map<String, Object>> maps = new LinkedList<>();
         // 生成执行计划
         //
-        Explain explain = generateExplain(select);
+        com.huawei.metadata.Explain explain = generateExplain(select);
         return handleByExplain(explain,select);
     }
 
-    private LinkedList<Map<String, Object>> handleByExplain(Explain explain,Select select) throws Exception {
+    private LinkedList<Map<String, Object>> handleByExplain(com.huawei.metadata.Explain explain, Select select) throws Exception {
         LinkedList<Map<String, Object>> maps = new LinkedList<>();
         if(explain.getType().equals("system")){
             DataItem dataItem = dataManager.read(0);
@@ -107,8 +107,8 @@ public class Table {
         return maps;
     }
 
-    private Explain generateExplain(Select select) {
-        Explain explain = new Explain();
+    private com.huawei.metadata.Explain generateExplain(Select select) {
+        com.huawei.metadata.Explain explain = new com.huawei.metadata.Explain();
         if (rowNum == 1) {
             explain.setType("system");
             return explain;
